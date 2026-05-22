@@ -1,4 +1,3 @@
-
 <div align="center">
 
   <h1>AgentWatch</h1>
@@ -17,17 +16,48 @@
 
 ---
 
+## The Crisis Nobody Is Talking About
+
+1 in 20 AI agent requests fail in production right now — silently.
+
+The system keeps running. The output looks correct. Nobody notices until
+a customer complains, a database is corrupted, or an audit finds something
+three weeks later.
+
+76% of AI agent deployments fail within 90 days. Not because the models
+are bad. Because nobody can see what the agent is doing while it's doing it.
+
+Gartner says 40% of enterprise apps will have AI agents by end of 2026.
+The same Gartner research says 40% of those projects will be cancelled by
+2027 — specifically because of monitoring gaps.
+
+The problem is not the model. The problem is that **an agent that
+confidently fails is indistinguishable from an agent that correctly
+succeeds** — unless you have a layer watching the reasoning, not just
+the output.
+
+That layer didn't exist.
+
+**Until now.**
+
+---
+
 ## What is AgentWatch?
 
-Every AI agent today makes the same quiet bet: that you won't notice when it fails.
+AgentWatch is the first production observability layer built specifically
+for AI agent reasoning — not just outputs.
 
-It returns a confident response. It says the task is complete. And three hours later you find out it wrote to the wrong database, deleted the wrong folder, or hallucinated a result so convincingly that nobody caught it.
+It sits between your agent and the world. It watches every action, scores
+every reasoning step with an independent model, blocks dangerous commands
+before they run, and gives you a full replay of exactly what happened
+and why.
 
-AgentWatch is the layer that was missing.
+57% of organizations run AI agents in production. Observability is the
+lowest-rated part of their stack. Current tools were built for single
+LLM calls — not multi-step agents that fail across 14 distinct failure
+modes.
 
-It sits between your agent and the world. It watches every action, scores every reasoning step, blocks dangerous commands before they run, and gives you a full replay of exactly what happened — and why.
-
-No more silent failures.
+AgentWatch was built for the agent era.
 
 ---
 
@@ -35,14 +65,14 @@ No more silent failures.
 
 | | |
 |---|---|
+| 🧠 **Reasoning Auditor** | Independent LLM scores every reasoning step — not just the output |
 | 🛡️ **Safety Engine** | Blocks dangerous commands before they execute |
-| 🧠 **Reasoning Auditor** | Scores every reasoning step — not just the final output |
 | 📊 **Live Dashboard** | Real-time trace of every action your agent takes |
 | ⏪ **One-Click Rollback** | Git-backed checkpoints at every step |
-| 💾 **Persistent Memory** | Your agent remembers context across sessions |
+| 💾 **Persistent Memory** | Cross-session episodic, semantic, and procedural memory |
 | 💰 **Cost Tracker** | Per-session token budget with live spend alerts |
 | 🔔 **Alerting** | Slack + PagerDuty when confidence drops or actions are blocked |
-| 📋 **Compliance** | GDPR/HIPAA audit exports, full RBAC governance |
+| 📋 **Compliance** | GDPR/HIPAA audit exports, RBAC governance |
 | 🔌 **Universal** | Claude Code, LangChain, AutoGPT, OpenClaw — no rewrites |
 
 ---
@@ -96,9 +126,15 @@ await adapter.on_skill_execution(skill_name, payload)
 
 ## The Reasoning Auditor
 
-This is the part nobody else has.
+This is what nobody else has built.
 
-Every AI agent scores its own work. And it almost always thinks it did well — even when it didn't. AgentWatch uses an independent model to score every reasoning step before the next action fires.
+Every agent scores its own work. And it almost always thinks it did
+well — even when it didn't. The confidence is the problem, not the
+failure.
+
+AgentWatch deploys an independent model — architecturally separate,
+no access to the agent's reasoning trace — whose only job is to find
+failure before the next action fires.
 
 ```python
 from agentwatch.reasoning.auditor import ReasoningAuditor
@@ -111,7 +147,8 @@ print(result.hallucination_risk)  # low / medium / high
 print(result.goal_drift)          # True if agent is off-task
 ```
 
-When confidence drops below your threshold, AgentWatch fires an alert and holds the next action — before it causes damage.
+When confidence drops below your threshold, AgentWatch holds the next
+action and fires an alert. Not after the damage. Before it.
 
 ---
 
@@ -139,8 +176,9 @@ credential exfiltration, and 40+ other critical patterns.
 agentwatch rollback <session-id> --to-step 12
 ```
 
-Or just click rollback in the dashboard. Every checkpoint is a full
-filesystem snapshot backed by git. Irreversible actions become reversible.
+Or click rollback in the dashboard. Every checkpoint is a full
+filesystem snapshot backed by git. Irreversible actions become
+reversible.
 
 ---
 
@@ -172,7 +210,7 @@ WS   /ws/events
 
 ```
 ✅ 47/47 tests passing
-✅ docker compose up — zero errors  
+✅ docker compose up — zero errors
 ✅ API live at localhost:8000
 ✅ Dashboard live at localhost:3000
 ✅ Claude Code, LangChain, AutoGPT, OpenClaw adapters working
@@ -187,8 +225,7 @@ Apache 2.0
 ---
 
 <div align="center">
-  <sub>Built by <a href="https://github.com/sreerevanth">sreerevanth</a> · Issues → open one · Questions → open one</sub>
+  <sub>Built by <a href="https://github.com/sreerevanth">sreerevanth</a> · Issues → open one</sub>
 </div>
 ```
-
 
