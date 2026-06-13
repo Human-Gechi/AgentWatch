@@ -1,0 +1,55 @@
+feature:
+  - any:
+    - head-branch: ['^feature\/.*', '^feat\/.*']
+
+bug:
+  - any:
+    - head-branch: ['^bugfix\/.*', '^fix\/.*', '^quick\/.*', '^hot\/.*', '^hotfix\/.*']
+
+documentation:
+  - any:
+    - head-branch: ['^docs\/.*']
+
+enhancement:
+  - any:
+    - head-branch: ['^enhancement\/.*', '^improve\/.*', '^refactor\/.*', '^perf\/.*']
+
+testing:
+  - any:
+    - head-branch: ['^test\/.*', '^testing\/.*', '^qa\/.*']
+
+security:
+  - any:
+    - head-branch: ['^security\/.*', '^sec\/.*']
+
+dependencies:
+  - any:
+    - head-branch: ['^deps\/.*', '^dependency\/.*', '^dependabot\/.*']
+
+release:
+  - any:
+    - head-branch: ['^release\/.*', '^rc\/.*', '^releases\/.*']
+
+breaking-change:
+  - any:
+    - head-branch: ['^breaking\/.*', '^major\/.*', '^breaking-change\/.*', '^bc\/.*']
+
+performance:
+  - any:
+    - head-branch: ['^performance\/.*', '^perf\/.*', '^optimize\/.*']
+
+style:
+  - any:
+    - head-branch: ['^style\/.*', '^ui\/.*', '^design\/.*', '^lint\/.*']
+
+experimental:
+  - any:
+    - head-branch: ['^experiment\/.*', '^exp\/.*']
+
+infrastructure:
+  - any:
+    - head-branch: ['^infra\/.*', '^ci\/.*', '^cd\/.*', '^devops\/.*', '^pipeline\/.*', '^docker\/.*']
+
+urgent:
+  - any:
+    - head-branch: ['^urgent\/.*', '^emergency\/.*', '^critical\/.*']
