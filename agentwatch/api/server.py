@@ -6,6 +6,7 @@ FastAPI-based REST API for the observability dashboard, CLI, and integrations.
 from __future__ import annotations
 
 import logging
+import asyncio
 import os
 import re
 import time
@@ -29,6 +30,7 @@ from fastapi.exception_handlers import http_exception_handler
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
+from sqlalchemy import text
 
 from agentwatch.alerting.engine import AlertingConfig, AlertingEngine
 from agentwatch.core.event_bus import get_event_bus
@@ -568,18 +570,57 @@ async def system_status(_auth: None = Depends(_require_api_key)) -> dict[str, An
 
 
 @app.get("/health")
-async def health(request: Request) -> dict[str, Any]:
+async def health(request: Request) -> JSONResponse:
     _limiter.check(_rate_limit_key(request, "r"), RATE_READ, request)
-    return {
-        "status": "ok",
+
+    checks: dict[str, Any] = {
         "version": "0.2.0",
         "timestamp": datetime.now(UTC).isoformat(),
-        "database_connected": _db_session_factory is not None,
         "traces": _collector.get_stats(),
         "event_bus": get_event_bus().stats(),
         "safety": _safety_engine.stats(),
         "cost": _cost_tracker.stats(),
     }
+    degraded = False
+
+    db_ok = False
+    if _db_session_factory is None:
+        db_ok = True  
+        checks["database"] = {"status": "in_memory"}
+    else:
+        try:
+            async def _ping_db():
+                async with _db_session_factory() as db:
+                    await db.execute(text("SELECT 1"))
+
+            await asyncio.wait_for(_ping_db(), timeout=10.0)
+            db_ok = True
+            checks["database"] = {"status": "OK"}
+        except Exception as e:
+            degraded = True
+            checks["database"] = {"status": "degraded", "error": str(e)}
+
+
+    redis_url = os.getenv("REDIS_URL")
+    if redis_url:
+        try:
+            import redis.asyncio as aioredis
+            async def _ping_redis():
+                r = aioredis.from_url(redis_url)
+                await r.ping()
+                await r.aclose()
+
+            await asyncio.wait_for(_ping_redis(), timeout=10.0)
+            checks["redis"] = {"status": "OK"}
+        except Exception as e:
+            degraded = True
+            checks["redis"] = {"status": "degraded", "error": str(e)}
+    else:
+        checks["redis"] = {"status": "not_configured"}
+
+    checks["status"] = "degraded" if degraded else "OK"
+    http_status = 503 if degraded else 200
+    return JSONResponse(content=checks, status_code=http_status)
 
 
 @app.get("/api/v1/sessions", response_model=SessionListResponse)
