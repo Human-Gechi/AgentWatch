@@ -15,6 +15,7 @@ from contextlib import asynccontextmanager
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
+import redis.asyncio as aioredis
 from fastapi import (
     Depends,
     FastAPI,
@@ -602,7 +603,6 @@ async def health(request: Request) -> JSONResponse:
     redis_url = os.getenv("REDIS_URL")
     if redis_url:
         try:
-            import redis.asyncio as aioredis
 
             async def _ping_redis():
                 r = aioredis.from_url(redis_url)
