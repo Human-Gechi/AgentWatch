@@ -13,6 +13,12 @@
       "contributions": 12
     },
     {
+      "login": "DebasmitaBose0",
+      "avatar_url": "https://github.com/DebasmitaBose0.png",
+      "html_url": "https://github.com/DebasmitaBose0",
+      "contributions": 10
+    },
+    {
       "login": "SHAURYASANYAL3",
       "avatar_url": "https://github.com/SHAURYASANYAL3.png",
       "html_url": "https://github.com/SHAURYASANYAL3",
@@ -23,12 +29,6 @@
       "avatar_url": "https://github.com/SHUBHAM2775.png",
       "html_url": "https://github.com/SHUBHAM2775",
       "contributions": 7
-    },
-    {
-      "login": "DebasmitaBose0",
-      "avatar_url": "https://github.com/DebasmitaBose0.png",
-      "html_url": "https://github.com/DebasmitaBose0",
-      "contributions": 6
     },
     {
       "login": "MayurKharat0390",
@@ -46,24 +46,24 @@
       "login": "Human-Gechi",
       "avatar_url": "https://github.com/Human-Gechi.png",
       "html_url": "https://github.com/Human-Gechi",
-      "contributions": 3
-    },
-    {
-      "login": "SakethSumanBathini",
-      "avatar_url": "https://github.com/SakethSumanBathini.png",
-      "html_url": "https://github.com/SakethSumanBathini",
-      "contributions": 2
+      "contributions": 5
     },
     {
       "login": "prachishelke1312",
       "avatar_url": "https://github.com/prachishelke1312.png",
       "html_url": "https://github.com/prachishelke1312",
-      "contributions": 2
+      "contributions": 3
     },
     {
       "login": "harika880",
       "avatar_url": "https://github.com/harika880.png",
       "html_url": "https://github.com/harika880",
+      "contributions": 2
+    },
+    {
+      "login": "SakethSumanBathini",
+      "avatar_url": "https://github.com/SakethSumanBathini.png",
+      "html_url": "https://github.com/SakethSumanBathini",
       "contributions": 2
     },
     {
@@ -133,6 +133,6 @@
       "contributions": 1
     }
   ],
-  "updated_at": "2026-06-13T05:13:35Z",
+  "updated_at": "2026-06-14T04:00:15Z",
   "total": 22
 }
