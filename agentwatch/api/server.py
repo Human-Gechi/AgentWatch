@@ -596,7 +596,7 @@ async def health(request: Request) -> JSONResponse:
 
             await asyncio.wait_for(_ping_db(), timeout=10.0)
             checks["database"] = {"status": "ok"}
-        except Exception as e:
+        except Exception:
             degraded = True
             checks["database"] = {"status": "degraded", "error": "Database is Unavailable"}
 
@@ -613,7 +613,7 @@ async def health(request: Request) -> JSONResponse:
 
             await asyncio.wait_for(_ping_redis(), timeout=10.0)
             checks["redis"] = {"status": "ok"}
-        except Exception as e:
+        except Exception:
             degraded = True
             checks["redis"] = {"status": "degraded", "error": "Redis is Unavailable"}
     else:
